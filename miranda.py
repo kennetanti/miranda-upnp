@@ -10,7 +10,11 @@ import os
 import re
 import platform
 import xml.dom.minidom as minidom
-import IN
+try:
+    import IN
+	BINDTODEVICE = IN.SO_BINDTODEVICE
+except:
+	BINDTODEVICE = 25
 import urllib
 import urllib2
 import readline
@@ -131,8 +135,8 @@ class upnp:
 			#Only bind to this interface
 			if self.IFACE != None:
 				print '\nBinding to interface',self.IFACE,'...\n'
-				self.ssock.setsockopt(SOL_SOCKET,IN.SO_BINDTODEVICE,struct.pack("%ds" % (len(self.IFACE)+1,), self.IFACE))
-				self.csock.setsockopt(SOL_SOCKET,IN.SO_BINDTODEVICE,struct.pack("%ds" % (len(self.IFACE)+1,), self.IFACE))
+				self.ssock.setsockopt(SOL_SOCKET,BINDTODEVICE,struct.pack("%ds" % (len(self.IFACE)+1,), self.IFACE))
+				self.csock.setsockopt(SOL_SOCKET,BINDTODEVICE,struct.pack("%ds" % (len(self.IFACE)+1,), self.IFACE))
 
 			try:
 				self.ssock.bind(('',self.port))
